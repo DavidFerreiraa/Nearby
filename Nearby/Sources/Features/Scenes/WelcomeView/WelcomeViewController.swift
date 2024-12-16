@@ -10,10 +10,14 @@ import UIKit
 
 class WelcomeViewController: UIViewController {
     let contentView: WelcomeView
-    
+    weak var flowDelegate: WelcomeFlowDelegate?
     init(contentView: WelcomeView) {
         self.contentView = contentView
         super.init(nibName: nil, bundle: nil)
+        
+        contentView.didTapButton = { [weak self] in
+            self?.flowDelegate?.goToHome()
+        }
     }
     
     required init?(coder: NSCoder) {
@@ -26,16 +30,12 @@ class WelcomeViewController: UIViewController {
     }
     
     private func setup() {
-        setHierarchy()
-        setConstraints()
-    }
-    
-    private func setHierarchy() {
         self.view.addSubview(contentView)
         view.backgroundColor = Colors.gray100
+        setupConstraints()
     }
     
-    private func setConstraints() {
+    private func setupConstraints() {
         self.setupContentViewToViewController(contentView: contentView)
     }
 }
